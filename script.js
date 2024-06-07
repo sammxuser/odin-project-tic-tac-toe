@@ -1,19 +1,89 @@
-function gameBoard() {
-  const gameBoardState = ['', '', '', '', '', '', '', '', ''];
+function GameBoard() {
+  const rows = 3;
+  const columns = 3;
+  const board = [];
 
-  let playerChoices = [];
-  const player = (name) => name;
-  const getPlayerChoices = () => playerChoices;
-  const updatePlayerChoices = (choice) => playerChoices.push(choice);
+  // create a 2d array that represents the state of the game board
+  for (let i = 0; i < rows; i++) {
+    board[i] = [];
+    for (let j = 0; j < columns; j++) {
+      board[i].push(Cell());
+    }
+  }
 
-  return { gameBoardState, player, getPlayerChoices, updatePlayerChoices };
+  // method for getting the board for the UI to render
+  const getBoard = () => board;
+
+  // method to get the cell played and the player
+  const playedCell = (cell, player) => {
+    pass;
+  };
+
+  //method to printBoard
+  const printBoard = () => {
+    pass;
+  };
+
+  return { getBoard, playedCell, printBoard };
 }
 
-const newGame = gameBoard();
-const player1 = newGame.player('sam');
-const player2 = newGame.player('doe');
+// A cell represents '1' square on the board and can have
+// *** blank
+// *** 0
+// *** X
+function Cell() {
+  let value = 'O';
 
-console.log(newGame.getPlayerChoices());
-console.log(newGame);
-console.log(player1);
-console.log(player2);
+  // Accept a player's change of value of the cell
+  const playCell = (player) => {
+    value = player;
+  };
+
+  // retrieve the current value of this cell through closure
+  const getValue = () => value;
+
+  return { playCell, getValue };
+}
+
+// The gameController will be responsible for controlling the flow and state of the game's turns
+// as well as whether anybody has won the game
+
+function GameController(
+  playerOneName = 'Player One',
+  playerTwoName = 'Player Two'
+) {
+  const board = GameBoard();
+
+  const players = [{ name: playerOneName }, { name: playerTwoName }];
+
+  let activePlayer = players[0];
+
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  };
+  const getActivePlayer = () => activePlayer;
+
+  const printNewRound = () => {
+    board.printBoard();
+    console.log(`${getActivePlayer().name}'s turn.`);
+  };
+
+  const playRound = () => {
+    console.log(`${getActivePlayer().name} playing`);
+
+    // board.playedCell()
+
+    // Check winner logic and print a winning message
+
+    // switch player turn
+    switchPlayerTurn();
+    printNewRound();
+  };
+
+  //Initial play game message
+  printNewRound();
+
+  return { playRound, getActivePlayer };
+}
+
+const game = GameController();
