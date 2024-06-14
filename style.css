@@ -54,6 +54,29 @@ body {
   background-color: #555;
 }
 
+.players {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.players input {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.players input:focus {
+  border: 1px solid #9fb1e6;
+}
+.players button {
+  margin-left: 10px;
+  margin-top: 20px;
+  background-color: #596d48;
+  padding: 5px 20px;
+  border-radius: 3px;
+  border: 0px;
+  color: aliceblue;
+  font-size: 16px;
+}
+
 @media (max-width: 600px) {
   .cell {
     width: 60px;

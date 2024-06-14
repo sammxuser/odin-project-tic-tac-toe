@@ -8,6 +8,25 @@
     <script src="script.js" defer></script>
   </head>
   <body>
+    <div class="players">
+      <form action="">
+        <label for="player1">Player 1 Name</label>
+        <input
+          type="text"
+          name="player1"
+          id="player1"
+          placeholder="Player #1 Name"
+        />
+        <label for="player2">Player 2 Name</label>
+        <input
+          type="text"
+          name="player2"
+          id="player2"
+          placeholder="Player #2 Name"
+        />
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
     <div id="tic-tac-toe-board">
       <div class="row">
         <div class="cell" id="cell-1"></div>
@@ -25,7 +44,8 @@
         <div class="cell" id="cell-9"></div>
       </div>
     </div>
-    <div id="gameMessage" class="game-message"></div>
-    <button id="resetButton">Reset Game</button>
+    <div id="gameMessage" class="game-message">
+      <button id="resetButton">Reset Game</button>
+    </div>
   </body>
 </html>
