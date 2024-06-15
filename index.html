@@ -9,25 +9,31 @@
   </head>
   <body>
     <div class="players">
-      <form action="">
+      <form method="get" id="playersform">
         <label for="player1">Player 1 Name</label>
         <input
           type="text"
+          required
           name="player1"
           id="player1"
-          placeholder="Player #1 Name"
+          placeholder="Name"
         />
+        <br />
         <label for="player2">Player 2 Name</label>
         <input
           type="text"
           name="player2"
           id="player2"
-          placeholder="Player #2 Name"
+          required
+          placeholder="Name"
         />
-        <button type="submit">Start Game</button>
+        <br />
+        <!-- <button type="submit" id="playersNamesButton">Start Game</button> -->
+        <input type="submit" value="Start Game" />
       </form>
     </div>
-    <div id="tic-tac-toe-board">
+    <div class="welcome"></div>
+    <div id="tic-tac-toe-board" class="togglehidden">
       <div class="row">
         <div class="cell" id="cell-1"></div>
         <div class="cell" id="cell-2"></div>
@@ -44,8 +50,7 @@
         <div class="cell" id="cell-9"></div>
       </div>
     </div>
-    <div id="gameMessage" class="game-message">
-      <button id="resetButton">Reset Game</button>
-    </div>
+    <div id="gameMessage" class="game-message togglehidden"></div>
+    <button id="resetButton" class="togglehidden">Reset Game</button>
   </body>
 </html>
