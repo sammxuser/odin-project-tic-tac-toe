@@ -9,8 +9,15 @@ body {
   background: linear-gradient(to right, #74ebd5, #acb6e5);
   color: #333;
 }
-
+.main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+#welcome {
+  grid-column: 1/2;
+}
 #tic-tac-toe-board {
+  grid-column: 2/2;
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: repeat(3, 100px);

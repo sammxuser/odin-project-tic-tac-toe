@@ -10,29 +10,41 @@ function GameBoard() {
   };
 }
 
-function Player() {
+function Player(playersNames) {
   let activePlayer = 'X';
   const getActivePlayer = () => activePlayer;
 
+  let activePlayerName = playersNames[0];
+  const getActivePlayerName = () => activePlayerName;
+
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === 'X' ? 'O' : 'X';
+    if (activePlayerName === playersNames[0]) {
+      activePlayerName = playersNames[1];
+    } else if (activePlayerName === playersNames[1]) {
+      activePlayerName = playersNames[0];
+    }
   };
 
-  // const getPlayersNames = () => playersNames;
-
-  return { getActivePlayer, switchPlayerTurn };
+  return { getActivePlayer, switchPlayerTurn, getActivePlayerName };
 }
 // The gameController will be responsible for controlling the flow and state of the game's turns
 // as well as whether anybody has won the game
-function GameController(gamePlayStatus) {
+function GameController(gamePlayStatus, playersNames) {
   const board = GameBoard();
   // let gameStatus = board.getGameStatus();
   let gameBoard = board.getBoard();
   let gameStatus = gamePlayStatus;
+  const gameStartBtn = document.getElementById('gamestartbtn');
+  // if (gameStatus) {
+  // Disable game start button if game is in play
+  // gameStartBtn.classList.toggle('togglehidden');
+  // }
   const getGameStatus = () => gameStatus;
 
-  const player = Player();
+  const player = Player(playersNames);
   let activePlayer = player.getActivePlayer();
+  let activePlayerName = player.getActivePlayerName();
 
   const cells = document.querySelectorAll('.cell');
 
@@ -40,6 +52,10 @@ function GameController(gamePlayStatus) {
   const playedCell = (playedCellIndex, currentPlayer, gameStatus) => {
     if (gameStatus) {
       gameBoard[playedCellIndex] = currentPlayer;
+      const welcomeDiv = document.querySelector('.welcome');
+      const playerChoices = document.createElement('p');
+      playerChoices.textContent = `${activePlayerName} played ${currentPlayer}`;
+      welcomeDiv.appendChild(playerChoices);
     }
   };
 
@@ -55,6 +71,7 @@ function GameController(gamePlayStatus) {
     // switch player turn
     player.switchPlayerTurn();
     activePlayer = player.getActivePlayer();
+    activePlayerName = player.getActivePlayerName();
     checkWinOrDraw();
     printNewRound();
   }
@@ -105,22 +122,23 @@ function GameController(gamePlayStatus) {
     if (roundWon) {
       player.switchPlayerTurn();
       activePlayer = player.getActivePlayer();
-      announceResult(activePlayer, roundWon, roundDraw);
+      activePlayerName = player.getActivePlayerName();
+      announceResult(activePlayerName, roundWon, roundDraw);
       gameStatus = false;
     }
 
     if (roundDraw) {
-      announceResult(activePlayer, roundWon, roundDraw);
+      announceResult(activePlayerName, roundWon, roundDraw);
       gameStatus = false;
     }
   };
 
-  const announceResult = (currentPlayer, roundWon, roundDraw) => {
+  const announceResult = (currentPlayerName, roundWon, roundDraw) => {
     const messageElement = document.getElementById('gameMessage');
     const resetButton = document.getElementById('resetButton');
 
     if (roundWon) {
-      messageElement.innerText = `Player ${currentPlayer} Wins!`;
+      messageElement.innerText = `${currentPlayerName} Wins!`;
       messageElement.classList.toggle('togglehidden');
       resetButton.classList.toggle('togglehidden');
     } else if (roundDraw) {
@@ -141,6 +159,7 @@ function GameController(gamePlayStatus) {
       if (activePlayer !== 'X') {
         player.switchPlayerTurn();
         activePlayer = player.getActivePlayer();
+        activePlayerName = player.getActivePlayerName();
       }
       const namesForm = document.getElementById('playersform');
       let retainPlayerNames = confirm('Retain same players?', false);
@@ -152,6 +171,9 @@ function GameController(gamePlayStatus) {
       resetBtn.classList.toggle('togglehidden');
       const messageElement = document.getElementById('gameMessage');
       messageElement.classList.toggle('togglehidden');
+
+      const welcomeDiv = document.querySelector('.welcome');
+      welcomeDiv.textContent = '';
     }
   };
 
@@ -177,7 +199,7 @@ function handlePlayerNamesForm(event) {
   playersNames[1] = playerForm.player2.value;
   event.preventDefault();
 
-  const game = GameController(true);
+  const game = GameController(true, playersNames);
   const boardOnPage = document.getElementById('tic-tac-toe-board');
   boardOnPage.classList.toggle('togglehidden');
   game.printBoard();
